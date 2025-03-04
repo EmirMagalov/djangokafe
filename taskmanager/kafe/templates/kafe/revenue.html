@@ -1,0 +1,15 @@
+{%extends 'kafe/base.html'%}
+{%block body%}
+<div class="blockrevenue">
+    {%for date,revenuedata in revenue.items%}
+    <div class="revenue" style="text-align:center;border:2px solid #00FFFF;width:300px;">
+        <h1>{{date}}</h1>
+        <p>Выручка:</p>
+        {%for r in revenuedata%}
+        <p class="total_amount"></p>
+        <p style="display:none;" class="amount">{{r.total_amount}}</p>
+        {%endfor%}
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

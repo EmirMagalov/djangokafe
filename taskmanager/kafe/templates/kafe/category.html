@@ -1,0 +1,13 @@
+{%extends 'kafe/base.html'%}
+{%block body%}
+<h1 class="order_menu">Стол №{{table}}</h1>
+<div class="block_category">
+    {% for c in category_dish %}
+    <a href="{%url 'dish' table.id c.id%}">
+    <div class="category_card">
+        <h1>{{c.name}}</h1>
+    </div>
+        </a>
+    {%endfor%}
+</div>
+{%endblock%}

@@ -1,0 +1,30 @@
+.dish_menu{
+text-align:center;
+}
+
+.block_dish{
+text-align: center;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 20px;
+width:300px;
+}
+.block_dish a{
+ text-decoration: none;
+ color:black;
+}
+.dish_card{
+border:3px solid #00FFFF;
+padding:10px;
+margin-top:5px;
+border-radius:25px;
+width:300px;
+}
+
+.quantity{
+width:15px;
+text-align:center;
+}
+.add{
+margin:10px;
+}

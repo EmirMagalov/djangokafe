@@ -1,0 +1,28 @@
+{%extends 'kafe/base.html'%}
+{% load kafe_tags %}
+
+{%block body%}
+<h1 class="dish_menu">Стол №{{table.number}}</h1>
+
+<div class="block_dish">
+    {% for dish in dishs %}
+
+    <div class="dish_card">
+        <h1>{{dish.name}}</h1>
+        <form action="{%url 'dish' table.id dish.id%}" method="POST">
+             {% csrf_token %}
+<!--            <input type="hidden" value="{{table.id}}">-->
+            <input type="hidden" value="{{dish.id}}" name="dish_id" >
+            <button class="minus" data-minus="minus">-</button>
+            <input type="text" class="quantity" value="1" name="quantity" readonly>
+            <button class="plus" data-plus="plus">+</button><br>
+            <button type="submit" class="add">Добавить</button>
+        </form>
+    </div>
+  
+    {%endfor%}
+</div>
+
+
+
+{%endblock%}

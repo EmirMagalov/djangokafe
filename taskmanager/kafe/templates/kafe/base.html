@@ -1,0 +1,178 @@
+{% load static %}
+{% load kafe_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{%static 'CSS/main_style.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/addorder_style.css'%}">
+    <link rel="stylesheet" href="{%static 'CSS/dish_style.css'%}">
+     <link rel="stylesheet" href="{%static 'CSS/orders_style.css'%}">
+    <title>Title</title>
+</head>
+<style>
+
+</style>
+<body>
+<div class="topnav">
+  <a class="active" href="{%url 'main'%}">Столы</a>
+    <a class="active" href="{%url 'revenue'%}">Выручка</a>
+</div>
+{% get_orderitems as orders %}
+{% get_status as status %}
+{%if orders%}
+<h1>{{order}}</h1>
+<div class="orderblock">
+    <h2 style="text-align:center;">Все заказы</h2>
+    <div class="sidebar"  style="text-align:center;">
+        <input type="text" id="searchInput" placeholder="Поиск..." oninput="filterOrders(event)">
+    </div>
+{%for table,dish_data in orders.items%}
+<div class="orders">
+<h1  class="table-number">Стол №{{table}}</h1>
+    <div class="dishs">
+        <form action="{%url 'orders'%}" method="POST">
+{%for data in dish_data%}
+
+
+        {% csrf_token %}
+<div  class="dish_order_block">
+<h2 class="dish-name">{{data.dish}}</h2>
+        <h3 class="price">{{data.dish.price}}</h3>
+         <button class="minus" data-minus="minus">-</button>
+      <input type="text" class="quantity_orders" name="quantity_orders_{{ data.dish.id }}" value="{{data.quantity}}">
+        <input type="hidden" name="dish_id_{{ data.dish.id }}" value="{{data.dish.id}}">
+        <input type="hidden" value="{{table}}" name="table">
+          <button class="plus" data-plus="plus">+</button><br><br>
+        <label>
+        <input type="checkbox" name="delete_{{ data.dish.id }}" value="1">
+        Удалить
+    </label>
+<div class="border" style="border-bottom:1px solid #C0C0C0;margin-top:5px;"></div>
+</div>
+
+
+{%endfor%}
+               {% one_order table_number=table as order %}
+            <div class="select_block" >
+             <div class="total">
+                 <p>
+                 Общая сумма:
+             </p>
+                 <p class="totalprice">
+
+             </p>
+             </div>
+            <select  name="status" >
+
+            <option  value="{{ order.get_status_display }}">{{order.get_status_display }}</option>
+            {%for s in status%}
+            {%if s != order.get_status_display%}
+            <option  value="{{ s }}">{{s}}</option>
+            {%endif%}
+            {%endfor%}
+            </select><br>
+                </div>
+             <button type="submit" class="add">Применить</button><br>
+             </form>
+        </div>
+    </div>
+{%endfor%}
+
+</div>
+{%endif%}
+{%if dishs or category_dish %}
+{% get_oneorderitems table_number=table.number as oneordersitems %}
+{%if oneordersitems %}
+<div class="oneorderblock">
+    <h2 style="text-align:center;">Заказы этого стола</h2>
+<div class="orders">
+<!--<h1  class="table-number">Стол №{{table}}</h1>-->
+    <div class="dishs">
+        <form action="{%url 'orders'%}" method="POST">
+
+
+{%for data in oneordersitems%}
+
+
+        {% csrf_token %}
+<div  class="dish_order_block">
+<h2 class="dish-name">{{data.dish}}</h2>
+        <h3 class="price">{{data.dish.price}}</h3>
+         <button class="minus" data-minus="minus">-</button>
+      <input type="text" class="quantity_orders" name="quantity_orders_{{ data.dish.id }}" value="{{data.quantity}}">
+        <input type="hidden" name="dish_id_{{ data.dish.id }}" value="{{data.dish.id}}">
+        <input type="hidden" value="{{table}}" name="table">
+          <button class="plus" data-plus="plus">+</button><br><br>
+        <label>
+        <input type="checkbox" name="delete_{{ data.dish.id }}" value="1">
+        Удалить
+    </label>
+    <div class="border" style="border-bottom:1px solid #C0C0C0;margin-top:5px;"></div>
+</div>
+
+
+{%endfor%}
+
+               {% one_order table_number=table.number as order %}
+            <div class="select_block" >
+             <div class="total">
+                 <p>
+                 Общая сумма:
+             </p>
+                 <p class="totalprice">
+
+             </p>
+             </div>
+            <select  name="status" >
+
+            <option  value="{{ order.get_status_display }}">{{order.get_status_display }}</option>
+            {%for s in status%}
+            {%if s != order.get_status_display%}
+            <option  value="{{ s }}">{{s}}</option>
+            {%endif%}
+            {%endfor%}
+            </select><br>
+                </div>
+             <button type="submit" class="add">Применить</button><br>
+
+             </form>
+
+        </div>
+
+    </div>
+{%endif%}
+    </div>
+{%endif%}
+{%block body%}
+{%endblock%}
+
+<!--    <form method="post">-->
+<!--        {% csrf_token %}-->
+<!--        <h2>Выберите стол и статус заказа</h2>-->
+<!--        {{ order_form.as_p }}-->
+
+<!--        <h2>Выберите блюда</h2>-->
+<!--        <table>-->
+<!--            <tr>-->
+<!--                <th>Блюдо</th>-->
+<!--                <th>Количество</th>-->
+<!--            </tr>-->
+<!--            {% for dish in dishes %}-->
+<!--            <tr>-->
+<!--                <td>{{ dish.name }} - {{ dish.price }}₽</td>-->
+<!--                <td><input type="number" name="quantity_{{ dish.id }}" min="1" value="1"></td>-->
+<!--                <input type="hidden" name="dish" value="{{ dish.id }}">-->
+<!--            </tr>-->
+<!--            {% endfor %}-->
+<!--        </table>-->
+
+<!--        <button type="submit">Создать заказ</button>-->
+<!--    </form>-->
+
+</body>
+<script src="{%static 'JS/dishcalculate.js'%}"></script>
+<script src="{%static 'JS/orderscalculate.js'%}"></script>
+<script src="{%static 'JS/pricecalculate.js'%}"></script>
+<script src="{%static 'JS/revenue.js'%}"></script>
+</html>
