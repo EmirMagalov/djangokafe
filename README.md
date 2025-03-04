@@ -14,15 +14,15 @@
 
 1. **Клонируйте репозиторий**
    ```sh
-   git clone https://github.com/yourusername/yourproject.git
-   cd yourproject
+   https://github.com/EmirMagalov/djangokafe.git
+   cd taskmanager
    ```
 
 2. **Создайте виртуальное окружение и активируйте его**
    ```sh
    python -m venv venv
-   source venv/bin/activate  # Для Linux/macOS
-   venv\Scripts\activate  # Для Windows
+   source venv/bin/activate  
+  
    ```
 
 3. **Установите зависимости**
