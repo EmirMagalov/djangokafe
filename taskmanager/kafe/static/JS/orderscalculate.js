@@ -5,6 +5,7 @@ function filterOrders(event) {
     orders.forEach(order => {
         let dishes = order.querySelectorAll(".dish-name");
         let table = order.querySelector(".table-number");
+        let statusSelect = order.querySelector("select[name='status']"); // Получаем сам <select>
         let match = false;
 
         // Поиск по названию блюда
@@ -19,10 +20,19 @@ function filterOrders(event) {
             match = true;
         }
 
+        // Поиск по статусу заказа (берем первый <option> в <select>)
+        if (statusSelect) {
+            let currentStatus = statusSelect.options[0].textContent.toLowerCase(); // Берем текст первого option
+            if (currentStatus.includes(input)) {
+                match = true;
+            }
+        }
+
         // Показать или скрыть заказ в зависимости от совпадений
         order.style.display = match ? "block" : "none";
     });
 }
+
 
 
 document.addEventListener("click", (e) => {

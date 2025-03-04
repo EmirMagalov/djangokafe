@@ -97,10 +97,11 @@ def orders(request):
     if request.method == 'POST':
         table_number = request.POST.get("table")
         status = request.POST.get("status")
-
+        print(status)
         table = get_object_or_404(Table, number=table_number)
         order = get_object_or_404(Order, table=table)
-
+        order.status = status
+        order.save()
 
         for key, quantity_orders in request.POST.items():
             if key.startswith("delete_"):
@@ -128,8 +129,7 @@ def orders(request):
 
         if status == "Оплачено":
 
-            order.status = status
-            order.save()
+
 
 
             total_amount = 0
@@ -150,6 +150,7 @@ def orders(request):
 
 
             order.delete()
+
 
         return redirect(request.META.get('HTTP_REFERER'))
 
