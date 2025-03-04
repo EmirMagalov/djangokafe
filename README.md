@@ -14,7 +14,7 @@
 
 1. **Клонируйте репозиторий**
    ```sh
-   https://github.com/EmirMagalov/djangokafe.git
+   git clone https://github.com/EmirMagalov/djangokafe.git
    cd taskmanager
    ```
 
